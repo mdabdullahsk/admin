@@ -1,0 +1,939 @@
+/* ============================================
+   RYVOX TV - প্রফেশনাল স্টাইলশিট v4.0
+   ============================================ */
+
+:root {
+    --plyr-color-main: #ff0000;
+    --plyr-control-radius: 6px;
+    --accent: #ff0000;
+    --accent-dim: rgba(255, 0, 0, 0.18);
+    --accent-glow: rgba(255, 0, 0, 0.35);
+    --bg-main: #090a0f;
+    --bg-card: rgba(12, 14, 22, 0.96);
+    --bg-item: rgba(16, 20, 32, 0.85);
+    --border: rgba(255,255,255,0.07);
+    --border-accent: rgba(255,0,0,0.55);
+    --text-primary: #ffffff;
+    --text-muted: rgba(255,255,255,0.45);
+    --sidebar-width: 300px;
+    --channel-item-height: 60px;
+    --radius: 10px;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Rajdhani', 'Noto Sans Bengali', Arial, sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    /* মোবাইলে ট্যাপ হাইলাইট সরাও */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================
+   মোবাইল লঞ্চ স্ক্রিন
+   ============================================ */
+.mobile-launch-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-main);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.launch-bg-glow {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 50% at 50% 30%, rgba(255,0,0,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 20% 80%, rgba(255,0,0,0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.launch-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 40px 32px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: launchFadeIn 0.6s ease forwards;
+}
+
+@keyframes launchFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.launch-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.launch-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    background: linear-gradient(135deg, #ffffff 30%, #ff4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.launch-tagline {
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.5px;
+}
+
+.launch-channels-count {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ff4444;
+    background: rgba(255,0,0,0.1);
+    border: 1px solid rgba(255,0,0,0.25);
+    padding: 5px 16px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+}
+
+.launch-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Noto Sans Bengali', sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(255,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+    transition: all 0.25s ease;
+    margin-top: 8px;
+    animation: btnPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+    0%, 100% { box-shadow: 0 8px 32px rgba(255,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3); }
+    50%       { box-shadow: 0 10px 40px rgba(255,0,0,0.6), 0 2px 8px rgba(0,0,0,0.3); }
+}
+
+.launch-btn:active { transform: scale(0.97); }
+
+.launch-note {
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 4px;
+}
+
+.mobile-launch-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* ============================================
+   প্রি-লোডার
+   ============================================ */
+#preloader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-main);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#preloader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.preloader-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    animation: preloaderIn 0.5s ease forwards;
+}
+
+@keyframes preloaderIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.preloader-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: white;
+}
+
+.preloader-logo span {
+    background: linear-gradient(135deg, #ffffff 30%, #ff4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.preloader-bar {
+    width: 220px;
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.preloader-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff0000, #ff6060);
+    border-radius: 4px;
+    animation: loadBar 1.8s ease-in-out infinite;
+}
+
+@keyframes loadBar {
+    0%   { width: 0%; }
+    50%  { width: 60%; }
+    100% { width: 100%; }
+}
+
+.preloader-text {
+    color: var(--text-muted);
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-family: 'Noto Sans Bengali', sans-serif;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 1; }
+}
+
+/* ============================================
+   অ্যাপ কন্টেইনার - সম্পূর্ণ স্ক্রিন জুড়ে
+   ============================================ */
+.app-container {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+/* ============================================
+   ভিডিও প্লেয়ার - সম্পূর্ণ স্ক্রিন জুড়ে
+   ============================================ */
+.player-container {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.player-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+
+/* Plyr ফুলস্ক্রিন */
+.plyr,
+.plyr__video-wrapper,
+.plyr--video {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    inset: 0 !important;
+}
+
+video#tv-player {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
+    background: #000;
+}
+
+/* Plyr কাস্টমাইজেশন */
+.plyr--video .plyr__controls {
+    background: linear-gradient(transparent, rgba(0,0,0,0.75)) !important;
+    padding: 20px 16px 14px !important;
+}
+
+/* ============================================
+   বাফারিং ইন্ডিকেটর
+   ============================================ */
+.buffering-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 50;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.buffering-ring {
+    display: inline-block;
+    position: relative;
+    width: 56px;
+    height: 56px;
+}
+
+.buffering-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    margin: 5px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    animation: ringRotate 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.buffering-ring div:nth-child(1) { border-top-color: #ff0000; animation-delay: -0.3s; }
+.buffering-ring div:nth-child(2) { border-top-color: rgba(255,0,0,0.6); animation-delay: -0.2s; }
+.buffering-ring div:nth-child(3) { border-top-color: rgba(255,0,0,0.3); animation-delay: -0.1s; }
+.buffering-ring div:nth-child(4) { border-top-color: rgba(255,0,0,0.1); }
+
+@keyframes ringRotate {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   ডেস্কটপ সাইডবার
+   ============================================ */
+.sidebar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    bottom: 20px;
+    width: var(--sidebar-width);
+    z-index: 9999;
+    transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.sidebar.hidden {
+    opacity: 0;
+    transform: translateX(-20px);
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.list-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid var(--border-accent);
+    border-radius: 14px;
+    padding: 14px 10px;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px) saturate(1.4);
+    box-shadow:
+        0 0 0 1px rgba(255,0,0,0.08),
+        0 20px 60px rgba(0,0,0,0.8),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    overflow: hidden;
+}
+
+/* স্ক্রোলবার */
+#channel-list {
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-right: 2px;
+}
+
+#channel-list::-webkit-scrollbar { width: 3px; }
+#channel-list::-webkit-scrollbar-track { background: transparent; }
+#channel-list::-webkit-scrollbar-thumb {
+    background: rgba(255,0,0,0.4);
+    border-radius: 4px;
+}
+
+/* হেডার */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 4px 8px;
+    border-bottom: 1px solid rgba(255,0,0,0.15);
+    flex-shrink: 0;
+}
+
+.header-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: white;
+    flex: 1;
+}
+
+.header-live-dot {
+    width: 7px;
+    height: 7px;
+    background: #ff0000;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #ff0000;
+    animation: livePulse 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes livePulse {
+    0%, 100% { box-shadow: 0 0 5px #ff0000; transform: scale(1); }
+    50%       { box-shadow: 0 0 12px #ff0000; transform: scale(1.3); }
+}
+
+.header-live-text {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ff0000;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* সার্চ বার */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 7px 12px;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+}
+
+.search-bar:focus-within {
+    border-color: rgba(255,0,0,0.4);
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 13px;
+    font-family: 'Noto Sans Bengali', sans-serif;
+    width: 100%;
+}
+
+.search-bar input::placeholder {
+    color: var(--text-muted);
+}
+
+/* ============================================
+   চ্যানেল আইটেম
+   ============================================ */
+.channel-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-item);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    height: var(--channel-item-height);
+    min-height: var(--channel-item-height);
+    max-height: var(--channel-item-height);
+    padding: 0 12px;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    animation: itemSlideIn 0.4s ease forwards;
+    opacity: 0;
+    transform: translateX(-10px);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.channel-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent-dim), transparent);
+    transition: width 0.3s ease;
+    border-radius: inherit;
+}
+
+@keyframes itemSlideIn {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.channel-item:hover {
+    border-color: rgba(255,0,0,0.4);
+    background: rgba(255,0,0,0.08);
+    transform: translateX(3px);
+}
+
+.channel-item:hover::before { width: 100%; }
+
+.channel-item.active {
+    border-color: var(--accent);
+    background: rgba(255,0,0,0.15);
+    box-shadow: 0 0 16px rgba(255,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.channel-item.active::before { width: 100%; }
+.channel-item.active .channel-number { color: #ff4444; }
+
+.channel-logo-wrap {
+    width: 50px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.channel-logo {
+    width: 46px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.channel-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.channel-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.channel-number {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: 'Rajdhani', sans-serif;
+    margin-top: 1px;
+    line-height: 1;
+}
+
+.channel-status {
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px #22c55e;
+}
+
+/* ============================================
+   এরর ওভারলে
+   ============================================ */
+.error-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.error-content {
+    background: linear-gradient(135deg, #0f1018, #141822);
+    border: 1px solid rgba(255,0,0,0.4);
+    border-radius: 16px;
+    padding: 36px 32px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,0,0,0.1);
+    animation: errorIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes errorIn {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.error-icon-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.error-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ff4444;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.error-text {
+    font-size: 14px;
+    font-family: 'Noto Sans Bengali', sans-serif;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+}
+
+.error-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 16px 0 14px;
+}
+
+.error-support-text {
+    font-size: 13px;
+    font-family: 'Noto Sans Bengali', sans-serif;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.error-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #25d366, #1da851);
+    color: white;
+    text-decoration: none;
+    padding: 11px 22px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.error-whatsapp-btn:hover {
+    background: linear-gradient(135deg, #2be573, #22c55e);
+    transform: translateY(-1px);
+}
+
+/* ============================================
+   মোবাইল চ্যানেল টগল বাটন
+   (ডিফল্টে লুকানো)
+   ============================================ */
+.mobile-channel-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 10500;
+    background: rgba(10, 10, 18, 0.92);
+    border: 1px solid rgba(255,0,0,0.5);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+}
+
+.mobile-channel-toggle:active {
+    transform: scale(0.96);
+    background: rgba(255,0,0,0.2);
+}
+
+/* ============================================
+   মোবাইল ট্যাপ হিন্ট (স্ক্রিন ট্যাপ নির্দেশনা)
+   ============================================ */
+.mobile-tap-hint {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9000;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-size: 12px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    pointer-events: none;
+    animation: hintFade 3s ease forwards;
+    white-space: nowrap;
+}
+
+@keyframes hintFade {
+    0%   { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    20%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+    70%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ============================================
+   মোবাইল সাইডবার ওভারলে ব্যাকড্রপ
+   ============================================ */
+.mobile-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.mobile-sidebar-backdrop.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ============================================
+   মোবাইল রেসপনসিভ
+   সমস্যা: landscape মোডে সাইডবার নিচে যাচ্ছিল
+   সমাধান: সাইডবার বাম পাশে ওভারলে হিসেবে
+   ============================================ */
+@media (max-width: 768px), (orientation: landscape) and (max-height: 500px) {
+
+    /* ভিডিও সম্পূর্ণ স্ক্রিন জুড়ে */
+    .app-container {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+    }
+
+    .player-container,
+    .player-wrapper {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* মোবাইলে চ্যানেল টগল দেখাও */
+    .mobile-channel-toggle {
+        display: flex;
+    }
+
+    /* মোবাইলে সাইডবার ব্যাকড্রপ দেখাও */
+    .mobile-sidebar-backdrop {
+        display: block;
+    }
+
+    /* মোবাইলে ট্যাপ হিন্ট দেখাও */
+    .mobile-tap-hint {
+        display: block;
+    }
+
+    /* ============================================
+       মোবাইল সাইডবার:
+       - বাম পাশ থেকে স্লাইড করে আসবে
+       - portrait ও landscape উভয়তেই কাজ করবে
+       - সাইডবার ভিডিওর উপরে ওভারলে হিসেবে থাকবে
+       ============================================ */
+    .sidebar {
+        /* বাম পাশ থেকে স্লাইড */
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        right: auto !important;
+        /* portrait মোডে চওড়া, landscape মোডে একটু কম */
+        width: min(280px, 75vw) !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        /* লুকানো অবস্থায় বাম দিকে চলে যাবে */
+        transform: translateX(-100%) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        border-radius: 0 !important;
+        z-index: 10000 !important;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    /* সাইডবার দেখানোর সময় */
+    .sidebar.mobile-visible {
+        transform: translateX(0) !important;
+        pointer-events: auto !important;
+    }
+
+    /* hidden class মোবাইলে কাজ করবে না, transform দিয়ে নিয়ন্ত্রণ হবে */
+    .sidebar.hidden {
+        transform: translateX(-100%) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: none !important;
+    }
+
+    .list-container {
+        border-radius: 0 16px 16px 0 !important;
+        border: none !important;
+        border-right: 1px solid rgba(255,0,0,0.4) !important;
+        padding: 50px 10px 16px !important;
+        background: rgba(9, 10, 15, 0.98) !important;
+        height: 100% !important;
+        gap: 5px !important;
+    }
+
+    /* মোবাইলে চ্যানেল আইটেম উচ্চতা */
+    :root {
+        --channel-item-height: 54px;
+    }
+
+    /* মোবাইলে চ্যানেল লিস্ট উল্লম্ব স্ক্রোল */
+    #channel-list {
+        flex-direction: column !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        flex: 1 !important;
+    }
+
+    /* মোবাইলে চ্যানেল আইটেম - স্বাভাবিক সারি */
+    .channel-item {
+        flex-direction: row !important;
+        gap: 10px !important;
+        padding: 0 10px !important;
+        min-width: unset !important;
+        max-width: unset !important;
+        width: 100% !important;
+        height: var(--channel-item-height) !important;
+        min-height: var(--channel-item-height) !important;
+        max-height: var(--channel-item-height) !important;
+        transform: none !important;
+    }
+
+    .channel-item:hover {
+        transform: none !important;
+    }
+
+    .channel-logo-wrap {
+        width: 44px;
+        height: 28px;
+        flex-shrink: 0;
+    }
+
+    .channel-logo {
+        width: 40px;
+        height: 24px;
+    }
+
+    .channel-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .channel-name {
+        font-size: 13px;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .channel-number {
+        font-size: 10px;
+    }
+
+    /* মোবাইলে সার্চ বার দেখাও */
+    .search-bar {
+        display: flex !important;
+        margin-bottom: 4px;
+    }
+
+    /* মোবাইলে error content ছোট */
+    .error-content {
+        max-width: 90vw;
+        padding: 24px 20px;
+    }
+}
+
+/* ছোট স্ক্রিন */
+@media (max-width: 380px) {
+    .sidebar {
+        width: 85vw !important;
+    }
+
+    .mobile-channel-toggle {
+        top: 12px;
+        left: 12px;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* landscape মোডে toggle বাটন পজিশন */
+@media (orientation: landscape) and (max-height: 500px) {
+    .mobile-channel-toggle {
+        top: 10px;
+        left: 10px;
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RYVOX TV - প্রফেশনাল আইপি টিভি</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.12/dist/hls.min.js"></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- মোবাইল লঞ্চ স্ক্রিন -->
+    <div id="mobile-launch-screen" class="mobile-launch-screen" style="display:none;">
+        <div class="launch-bg-glow"></div>
+        <div class="launch-content">
+            <div class="launch-logo">
+                <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" width="90">
+                    <rect width="60" height="40" rx="6" fill="white"/>
+                    <path d="M22 10V30L42 20L22 10Z" fill="#ff0000"/>
+                </svg>
+                <span class="launch-brand">RYVOX TV</span>
+            </div>
+            <div class="launch-tagline">বাংলাদেশের সেরা আইপিটিভি</div>
+            <div class="launch-channels-count" id="launch-ch-count">৫০+ চ্যানেল লাইভ</div>
+            <button class="launch-btn" onclick="startMobileApp()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                শুরু করুন
+            </button>
+            <div class="launch-note">ফুলস্ক্রিনে সেরা অভিজ্ঞতা পাবেন</div>
+        </div>
+    </div>
+
+    <!-- প্রি-লোডার -->
+    <div id="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-logo">
+                <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" width="80">
+                    <rect width="60" height="40" rx="6" fill="white"/>
+                    <path d="M22 10V30L42 20L22 10Z" fill="#ff0000"/>
+                </svg>
+                <span>RYVOX TV</span>
+            </div>
+            <div class="preloader-bar">
+                <div class="preloader-fill"></div>
+            </div>
+            <div class="preloader-text">লোড হচ্ছে...</div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        
+        <!-- ভিডিও প্লেয়ার এরিয়া -->
+        <div class="player-container">
+            <div class="player-wrapper">
+                
+                <!-- বাফারিং স্পিনার -->
+                <div id="buffering-loader" class="buffering-overlay">
+                    <div class="buffering-ring">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+
+                <video id="tv-player" playsinline controls></video>
+                
+                <!-- এরর ওভারলে -->
+                <div id="error-overlay" class="error-overlay">
+                    <div class="error-content">
+                        <div class="error-icon-wrap">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="11" stroke="#ff0000" stroke-width="1.5"/>
+                                <path d="M12 7v6" stroke="#ff0000" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="12" cy="16.5" r="1" fill="#ff0000"/>
+                            </svg>
+                        </div>
+                        <h3 class="error-title">সংযোগ ব্যর্থ হয়েছে</h3>
+                        <p class="error-text">চ্যানেলটি লোড করা সম্ভব হচ্ছে না। অন্য চ্যানেল বেছে নিন বা কিছুক্ষণ পর আবার চেষ্টা করুন।</p>
+                        <div class="error-divider"></div>
+                        <p class="error-support-text">সমস্যা অব্যাহত থাকলে আমাদের সাথে যোগাযোগ করুন:</p>
+                        <a href="https://wa.me/8801872173839" target="_blank" class="error-whatsapp-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            WhatsApp: 01872-173839
+                        </a>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <!-- সাইডবার চ্যানেল লিস্ট -->
+        <div class="sidebar" id="sidebar-panel">
+            <div class="list-container">
+                <div class="sidebar-header">
+                    <div class="header-logo">
+                        <svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" width="36" height="24">
+                            <rect width="30" height="20" rx="4" fill="white"/>
+                            <path d="M10 4V16L22 10L10 4Z" fill="#ff0000"/>
+                        </svg>
+                    </div>
+                    <span class="header-title">RYVOX TV</span>
+                    <span class="header-live-dot"></span>
+                    <span class="header-live-text">LIVE</span>
+                </div>
+                
+                <div class="search-bar">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text" id="channel-search" placeholder="চ্যানেল খুঁজুন..." oninput="filterChannels(this.value)">
+                </div>
+
+                <div id="channel-list"></div>
+            </div>
+        </div>
+
+        <!-- মোবাইলে চ্যানেল লিস্ট টগল বাটন -->
+        <button id="mobile-channel-toggle" class="mobile-channel-toggle" onclick="toggleMobileSidebar()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </svg>
+            <span>চ্যানেল</span>
+        </button>
+
+
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
